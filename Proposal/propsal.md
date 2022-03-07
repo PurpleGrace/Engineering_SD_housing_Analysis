@@ -16,6 +16,8 @@ People who are interested in airbnb business in San Diego.
 
 - What does your end-to-end data pipeline look like? You should submit a preliminary sketch of your pipeline in the form of a diagram or workflow list with your proposal. For more directions and examples see the Data Pipeline and Project Workflow pages.
 
+![image](https://github.com/PurpleGrace/Engineering_SD_housing_Analysis/blob/main/Proposal/flowchart.png)
+
 
 
 ### Data Description:
@@ -54,4 +56,4 @@ To be decided.
 ### MVP Goal:
 - What would a minimum viable product (MVP) look like for this project?
 
-Basic web deployment. 
+Basic web deployment.
