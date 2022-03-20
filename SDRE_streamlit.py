@@ -1,5 +1,7 @@
 #!pip install mysql-connector
 #pip install pydeck
+#pip install gunicorn
+import plotly
 import streamlit as st
 import plotly.express as px
 import plotly.graph_objects as go
@@ -8,6 +10,9 @@ import pandas as pd
 import numpy as np
 import pydeck as pdk
 from Load_data_to_Database import *
+
+pip list
+
 
 
 os.chdir('/Users/kristy/Documents/Data Science Material/Metis/7 Engineering/Engineering Project/Engineering_SD_housing_Analysis')
