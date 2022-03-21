@@ -117,8 +117,6 @@ def get_airbnb_data():
     return pd.read_csv(href)
 
 df_airbnb = get_airbnb_data( )
-df_airbnb.head(1)
-df_airbnb.dtypes
 
 df_airbnb = df_airbnb[['id','neighbourhood','latitude','longitude','room_type','price','minimum_nights','number_of_reviews','reviews_per_month']]
 
@@ -292,8 +290,7 @@ def insert_csv_into_table(df_sample,file, tb_name):
         db_con.commit()
         db_con.close()
 
-# insert_csv_into_table(df_mls_selling_sample, "data/mls_selling.csv",'mls_selling_tb' )
-# insert_csv_into_table(df_mls_selling_sample,'data/mls_rental.csv','mls_rental_tb' )
+
 
 TABLES = {}
 TABLES['zillow_rent_index_tb']= create_table_schema(df_zillow_rent_index,'zillow_rent_index_tb')
