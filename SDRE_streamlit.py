@@ -24,7 +24,12 @@ st.set_page_config(
 # -------- sidebar -----------------------
 st.sidebar.header("Please Input Inquery Info:")
 
-db_con = mysql.connector.connect(host='localhost', user='root',password='root1234',database = 'SDRE_data')
+#db_con = mysql.connector.connect(host='localhost', user='root',password='root1234',database = 'SDRE_data')
+
+def init_connection():
+    return mysql.connector.connect(**st.secrets["mysql"])
+
+db_con = init_connection()
 if db_con.is_connected():
     print('Database connected')
 cursor = db_con.cursor()
