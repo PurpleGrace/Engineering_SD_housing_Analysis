@@ -115,12 +115,7 @@ inquiry_zip = st.sidebar.selectbox('Input ZipCode:',options = df_zillow.zipcode.
 inquriry_room_number = st.sidebar.number_input('Inpurt Bedroom numbers', value = 1)
 inquiry_bath_number =  st.sidebar.number_input('Input Bath numbers', value  = 2)
 
-# city = df_zillow[df_zillow.zipcode ==inquiry_zip ].city
-# vf_2022_03_31 = df_zillow[df_zillow.zipcode ==inquiry_zip ].vf_2022_03_31
-# vf_2022_05_31 = df_zillow[df_zillow.zipcode ==inquiry_zip ].vf_2022_05_31
-# vf_2023_02_28 = df_zillow[df_zillow.zipcode ==inquiry_zip ].vf_2023_02_28
-# vi__2022_02_28 = df_zillow[df_zillow.zipcode ==inquiry_zip ].vi__2022_02_28
-# ri__2022_02 = df_zillow[df_zillow.zipcode ==inquiry_zip ].ri__2022_02
+
 
 df_z_zip  = df_zillow.query('zipcode == @inquiry_zip')
 df_a_zip_agg = airbnb_zip_info.query('zipcode == @inquiry_zip')
@@ -182,7 +177,6 @@ with column1:
 with column2:
      df_selling_zip[mask].residential_styles.unique()
      df_stype = pd.DataFrame([ df_selling_zip[mask].residential_styles,df_selling_zip[mask]['list_price'].astype(float)]).transpose()
-     df_stype
      style_price_fig = px.box(df_stype, x="residential_styles", y="list_price",
                         title = f'Listing Price Boxplot By Styles of {inquriry_room_number}b/{inquiry_bath_number}ba Property ',
                         template="simple_white")
