@@ -11,6 +11,7 @@ from Load_data_to_Database import *
 
 
 
+
 os.chdir('/Users/kristy/Documents/Data Science Material/Metis/7 Engineering/Engineering Project/Engineering_SD_housing_Analysis')
 
 st.set_page_config(
@@ -20,12 +21,7 @@ st.set_page_config(
      initial_sidebar_state="expanded",
  )
 
-
-# -------- sidebar -----------------------
-st.sidebar.header("Please Input Inquery Info:")
-
 #db_con = mysql.connector.connect(host='localhost', user='root',password='root1234',database = 'SDRE_data')
-
 def init_connection():
     return mysql.connector.connect(**st.secrets["mysql"])
 
@@ -95,11 +91,20 @@ query = ('''
 cursor.execute(query)
 
 query = ('''
+         ALTER TABLE airbnb_tb MODIFY price Float(15,8);
+  ''')
+cursor.execute(query)
+
+query = ('''
          SELECT * FROM airbnb_tb;
   ''')
 df_airbnb= pd.read_sql_query(query,db_con)
 
+
 db_con.close()
+
+# -------- sidebar -----------------------
+st.sidebar.header("Please Input Inquery Info:")
 
 
 # cursor.execute(query)
@@ -177,6 +182,7 @@ with column1:
 with column2:
      df_selling_zip[mask].residential_styles.unique()
      df_stype = pd.DataFrame([ df_selling_zip[mask].residential_styles,df_selling_zip[mask]['list_price'].astype(float)]).transpose()
+     df_stype
      style_price_fig = px.box(df_stype, x="residential_styles", y="list_price",
                         title = f'Listing Price Boxplot By Styles of {inquriry_room_number}b/{inquiry_bath_number}ba Property ',
                         template="simple_white")
@@ -189,13 +195,22 @@ st.markdown("""---""")
 # -------------------subhead--------------------------------------
 st.subheader("Airbnb Listing Info")
 df_airbnb_zip = df_airbnb[df_airbnb.zipcode == inquiry_zip]
+mean_airbnb_zip =  df_airbnb_zip.price.mean()
+df_aibnb_most = df_airbnb.groupby(['zipcode'])['id'].count().sort_values(ascending = False)[:10]
+df_aibnb_most = pd.DataFrame({'zipcode':df_aibnb_most.index, 'total':df_aibnb_most.values})
+
+column1, column2 = st.columns(2)
+zip_airbnb_fig = px.bar(df_aibnb_most,x='zipcode',y='total',title='Most Popular ZipCode With Aibnb',template="simple_white")
+with column1:
+    st.plotly_chart(zip_airbnb_fig)
+
+with column2:
+    type_price_fig = px.box(df_airbnb_zip, x="room_type", y="price",
+                            title = f'Airbnbn Average Price is ${int(mean_airbnb_zip)} and Price Boxplot By type in Zip {inquiry_zip} ',
+                            template="simple_white")
+    st.plotly_chart(type_price_fig,use_container_width= True)
 
 
-df = df_airbnb.groupby(['zipcode'])['id'].count().sort_values(ascending = False)[:10]
-df = pd.DataFrame({'zipcode':df.index, 'total':df.values})
-
-zip_airbnb_fig = px.bar(df,x='zipcode',y='total',title='Most Popular ZipCode With Aibnb',template="simple_white")
-st.plotly_chart(zip_airbnb_fig)
 
 
 #df_airbnb_zip['latitude'].tolist()[0]
@@ -213,8 +228,8 @@ st.pydeck_chart(pdk.Deck(
             data=df_airbnb_zip,
             get_position='[longitude,latitude]',
             radius=200,
-            elevation_scale=4,
-            elevation_range=[0, 1000],
+            elevation_scale=2,
+            elevation_range=[0, 10],
             pickable=True,
             extruded=True,
          ),
