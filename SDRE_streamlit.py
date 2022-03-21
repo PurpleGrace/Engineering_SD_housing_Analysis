@@ -1,6 +1,4 @@
-#!pip install mysql-connector
-#pip install pydeck
-#pip install gunicorn
+
 import plotly
 import streamlit as st
 import plotly.express as px
@@ -10,8 +8,6 @@ import pandas as pd
 import numpy as np
 import pydeck as pdk
 from Load_data_to_Database import *
-
-pip list
 
 
 
@@ -80,7 +76,7 @@ query = ('''
      SELECT * FROM airbnb_tb;
 ''')
 df_airbnb= pd.read_sql_query(query,db_con)
-df_airbnb.head()
+
 
 
 query = ('''
@@ -97,7 +93,7 @@ query = ('''
          SELECT * FROM airbnb_tb;
   ''')
 df_airbnb= pd.read_sql_query(query,db_con)
-df_airbnb.head()
+
 db_con.close()
 
 
@@ -120,7 +116,7 @@ df_z_zip  = df_zillow.query('zipcode == @inquiry_zip')
 df_a_zip_agg = airbnb_zip_info.query('zipcode == @inquiry_zip')
 df_selling_zip = df_selling.query('zip == @inquiry_zip')
 df_rental_zip = df_rental.query('zip == @inquiry_zip')
-df_a_zip_agg
+
 
 #--------------------main page------------------------------
 st.title(":bar_chart: San Diego Real Estate Dashboard")
@@ -153,7 +149,7 @@ st.subheader("Market Value Info")
 x=['2022_03_31','2022_05_31','2023_02_28']
 y = df_z_zip.iloc[0][2:5].astype(float)
 df_v_increase = pd.DataFrame({'Date':x, 'Increase Expection':y})
-df_v_increase
+
 mask = (df_selling_zip.bedrooms_total == str(inquriry_room_number)) & (df_selling_zip.baths_full == str(inquiry_bath_number))
 sold_avg = df_selling_zip[df_selling_zip.status == 'Sold'].sold_price.astype(float).mean()
 
@@ -196,7 +192,6 @@ df = pd.DataFrame({'zipcode':df.index, 'total':df.values})
 zip_airbnb_fig = px.bar(df,x='zipcode',y='total',title='Most Popular ZipCode With Aibnb',template="simple_white")
 st.plotly_chart(zip_airbnb_fig)
 
-df_airbnb_zip
 
 #df_airbnb_zip['latitude'].tolist()[0]
 st.pydeck_chart(pdk.Deck(
@@ -218,12 +213,12 @@ st.pydeck_chart(pdk.Deck(
             pickable=True,
             extruded=True,
          ),
-         pdk.Layer(
-             'ScatterplotLayer',
-             data=df_airbnb_zip,
-             get_position='[longitude,latitude]',
-             get_color='[200, 30, 0, 160]',
-             get_radius=200,
-         ),
+         # pdk.Layer(
+         #     'ScatterplotLayer',
+         #     data=df_airbnb_zip,
+         #     get_position='[longitude,latitude]',
+         #     get_color='[200, 30, 0, 160]',
+         #     get_radius=200,
+         # ),
      ],
  ))
