@@ -8,9 +8,6 @@ import pandas as pd
 import numpy as np
 import pydeck as pdk
 
-
-
-
 #os.chdir('/Users/kristy/Documents/Data Science Material/Metis/7 Engineering/Engineering Project/Engineering_SD_housing_Analysis')
 
 st.set_page_config(
@@ -130,7 +127,8 @@ st.title(":bar_chart: San Diego Real Estate Dashboard")
 st.markdown("### Rental Info")
 rent_avg = df_rental_zip[df_rental_zip.status == 'Rented'].rented_price.astype(float).mean()
 mask = (df_rental_zip.bedrooms_total == str(inquriry_room_number)) & (df_rental_zip.baths_full == str(inquiry_bath_number))
-
+df_rental_zip_mask = df_rental_zip[mask]
+df_rental_zip_mask
 column1, column2= st.columns(2)
 
 with column1:
@@ -142,9 +140,13 @@ with column2:
 if (len(df_rental_zip[mask]) == 0):
     st.markdown(f'No Rental Info for {inquriry_room_number} bedrooms and {inquiry_bath_number} bathrooms Property')
 else:
-    rental_his= px.histogram(df_rental_zip[mask].list_price.astype(float),
-                title = f"      AveragePrice for {inquriry_room_number}b/{inquiry_bath_number}ba Property: ${int(df_rental_zip[mask].list_price.astype(float).mean())}  ")
-    st.plotly_chart(rental_his,template="simple_white",use_container_width = True)
+    # rental_his= px.histogram(df_rental_zip[mask].list_price.astype(float),
+    #             title = f"      AveragePrice for {inquriry_room_number}b/{inquiry_bath_number}ba Property: ${int(df_rental_zip[mask].list_price.astype(float).mean())}  ")
+    # st.plotly_chart(rental_his,template="simple_white",use_container_width = True)
+    rent_price_fig = px.box(df_rental_zip_mask, x="rental_residential_styles", y="list_price",
+                        title = f'Listing Price Boxplot By Styles of {inquriry_room_number}b/{inquiry_bath_number}ba Property ',
+                        template="simple_white")
+    st.plotly_chart(rent_price_fig,use_container_width= True)
 
 
 st.markdown("""---""")
