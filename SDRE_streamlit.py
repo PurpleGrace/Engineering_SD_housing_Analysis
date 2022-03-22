@@ -7,12 +7,11 @@ import mysql.connector
 import pandas as pd
 import numpy as np
 import pydeck as pdk
-from Load_data_to_Database import *
 
 
 
 
-os.chdir('/Users/kristy/Documents/Data Science Material/Metis/7 Engineering/Engineering Project/Engineering_SD_housing_Analysis')
+#os.chdir('/Users/kristy/Documents/Data Science Material/Metis/7 Engineering/Engineering Project/Engineering_SD_housing_Analysis')
 
 st.set_page_config(
      page_title="SDRE Dashboard",
@@ -22,6 +21,7 @@ st.set_page_config(
  )
 
 #db_con = mysql.connector.connect(host='localhost', user='root',password='root1234',database = 'SDRE_data')
+#@st.cache(allow_output_mutation=True, hash_funcs={"_thread.RLock": lambda _: None})
 def init_connection():
     return mysql.connector.connect(**st.secrets["mysql"])
 

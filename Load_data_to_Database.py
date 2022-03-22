@@ -291,24 +291,23 @@ def insert_csv_into_table(df_sample,file, tb_name):
         db_con.close()
 
 
+if __name__ == "__main__":
 
-TABLES = {}
-TABLES['zillow_rent_index_tb']= create_table_schema(df_zillow_rent_index,'zillow_rent_index_tb')
-TABLES['zillow_value_index_tb']= create_table_schema(df_zillow_value_index,'zillow_value_index_tb')
-TABLES['zillow_value_forcast_tb']= create_table_schema(df_zillow_value_forcast,'zillow_value_forcast_tb')
+    TABLES = {}
+    TABLES['zillow_rent_index_tb']= create_table_schema(df_zillow_rent_index,'zillow_rent_index_tb')
+    TABLES['zillow_value_index_tb']= create_table_schema(df_zillow_value_index,'zillow_value_index_tb')
+    TABLES['zillow_value_forcast_tb']= create_table_schema(df_zillow_value_forcast,'zillow_value_forcast_tb')
 
-TABLES['airbnb_tb'] = create_table_schema(df_airbnb,'airbnb_tb')
-TABLES['mls_rental_tb'] = create_table_schema(df_mls_rental_sample,'mls_rental_tb')
-TABLES['mls_selling_tb'] = create_table_schema(df_mls_selling_sample,'mls_selling_tb')
+    TABLES['airbnb_tb'] = create_table_schema(df_airbnb,'airbnb_tb')
+    TABLES['mls_rental_tb'] = create_table_schema(df_mls_rental_sample,'mls_rental_tb')
+    TABLES['mls_selling_tb'] = create_table_schema(df_mls_selling_sample,'mls_selling_tb')
 
-set_database("SDRE_data")
-create_tables(TABLES)
-insert_dataframe_to_table(df_zillow_rent_index,tb_name = 'zillow_rent_index_tb')
-insert_dataframe_to_table(df_zillow_value_index,tb_name = 'zillow_value_index_tb')
-insert_dataframe_to_table(df_zillow_value_forcast,tb_name = 'zillow_value_forcast_tb')
-insert_dataframe_to_table(df_airbnb,tb_name = 'airbnb_tb')
-insert_csv_into_table(df_mls_selling_sample, "data/mls_selling.csv",'mls_selling_tb' )
-insert_csv_into_table(df_mls_rental_sample,"data/mls_rental.csv",'mls_rental_tb' )
-
-
-print('All data are loaded into database')
+    set_database("SDRE_data")
+    create_tables(TABLES)
+    insert_dataframe_to_table(df_zillow_rent_index,tb_name = 'zillow_rent_index_tb')
+    insert_dataframe_to_table(df_zillow_value_index,tb_name = 'zillow_value_index_tb')
+    insert_dataframe_to_table(df_zillow_value_forcast,tb_name = 'zillow_value_forcast_tb')
+    insert_dataframe_to_table(df_airbnb,tb_name = 'airbnb_tb')
+    insert_csv_into_table(df_mls_selling_sample, "data/mls_selling.csv",'mls_selling_tb' )
+    insert_csv_into_table(df_mls_rental_sample,"data/mls_rental.csv",'mls_rental_tb' )
+    print('All data are loaded into database')
