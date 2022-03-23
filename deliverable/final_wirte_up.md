@@ -9,7 +9,7 @@ The pipeline is going to fetch data from insideairbnb.com, read data which has b
 
 
 ### Data
- The data is collected from three resources. The first one is from insideairbnb which gives all airbnb listing in San Diego. The dataset contains feature like ID,latitude,longitude,price per night, room type, review numbers and etc. The second resources is from Zillow. We would like to offer the info of the value index, rent index and also potential value increase index of one specific zip code area estimated by Zillow. The third one is from San Diego multiple Listing System, the system record every selling transaction and part of rentals. We would calculate and offer our interest holder the average price by zip, bedroom numbers, bathroom numbers and home type.  
+ The data is collected from three resources. The first one is from insideairbnb which gives all airbnb listing in San Diego. The dataset contains feature like ID,latitude,longitude,price per night, room type, review numbers and etc. The second resources is from Zillow. We would like to offer the info of the value index, rent index and also potential value increase index of one specific zip code area estimated by Zillow. The third one is from San Diego multiple Listing System, the system record every selling transaction and part of rentals. We would calculate and offer our interest holder the average rental/selling in the last three month by zip, bedroom numbers, bathroom numbers and home type.  
 
 
 
