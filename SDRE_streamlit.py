@@ -109,8 +109,8 @@ st.sidebar.header("Please Input Inquery Info:")
 # df_zillow.columns = ['zipcode','city',]
 
 inquiry_zip = st.sidebar.selectbox('Input ZipCode:',options = df_zillow.zipcode.unique(),index=1)
-inquriry_room_number = st.sidebar.number_input('Inpurt Bedroom numbers', value = 1)
-inquiry_bath_number =  st.sidebar.number_input('Input Bath numbers', value  = 2)
+inquriry_room_number = st.sidebar.number_input('Input Bedroom numbers', value=2)
+inquiry_bath_number = st.sidebar.number_input('Input Bath numbers', value=1)
 
 
 
@@ -128,14 +128,13 @@ st.markdown("### Rental Info")
 rent_avg = df_rental_zip[df_rental_zip.status == 'Rented'].rented_price.astype(float).mean()
 mask = (df_rental_zip.bedrooms_total == str(inquriry_room_number)) & (df_rental_zip.baths_full == str(inquiry_bath_number))
 df_rental_zip_mask = df_rental_zip[mask]
-df_rental_zip_mask
 column1, column2= st.columns(2)
 
 with column1:
     st.markdown(f"##### {inquiry_zip} Zillow Rental Index: ${df_z_zip['ri__2022_02'].values[0]}")
 
 with column2:
-    st.markdown(f"##### Average Rented Price In Past Three Month: ${rent_avg}")
+    st.markdown(f"##### Average Rented Price In Past Three Month: ${int(rent_avg)}")
 
 if (len(df_rental_zip[mask]) == 0):
     st.markdown(f'No Rental Info for {inquriry_room_number} bedrooms and {inquiry_bath_number} bathrooms Property')
@@ -163,7 +162,7 @@ sold_avg = df_selling_zip[df_selling_zip.status == 'Sold'].sold_price.astype(flo
 
 column1, column2 = st.columns(2)
 
-column1.markdown(f"###### {inquiry_zip} Zillow House Value Index: $ {df_z_zip['vi__2022_02_28'].values[0]}")
+column1.markdown(f"###### {inquiry_zip} Zillow House Value Index:")
 column1.markdown(f"##### $ {df_z_zip['vi__2022_02_28'].values[0]}")
 
 column2.markdown(f"###### Average Sold Price In Past Three Month:")
@@ -191,12 +190,12 @@ st.markdown("""---""")
 # -------------------subhead--------------------------------------
 st.subheader("Airbnb Listing Info")
 df_airbnb_zip = df_airbnb[df_airbnb.zipcode == inquiry_zip]
-mean_airbnb_zip =  df_airbnb_zip.price.mean()
+mean_airbnb_zip = df_airbnb_zip.price.mean()
 df_aibnb_most = df_airbnb.groupby(['zipcode'])['id'].count().sort_values(ascending = False)[:10]
 df_aibnb_most = pd.DataFrame({'zipcode':df_aibnb_most.index, 'total':df_aibnb_most.values})
 
 column1, column2 = st.columns(2)
-zip_airbnb_fig = px.bar(df_aibnb_most,x='zipcode',y='total',title='Most Popular ZipCode With Aibnb',template="simple_white")
+zip_airbnb_fig = px.bar(df_aibnb_most,x='zipcode',y='total',title='Most Popular ZipCode With Aibnb Listing',template="simple_white")
 with column1:
     st.plotly_chart(zip_airbnb_fig)
 
@@ -207,34 +206,49 @@ with column2:
     st.plotly_chart(type_price_fig,use_container_width= True)
 
 
+#px.set_mapbox_access_token(st.secrets["mapbox"]["mapbox"])
+airbnb_dot = px.scatter_mapbox(df_airbnb_zip,
+                    lat=df_airbnb_zip.latitude,
+                    lon=df_airbnb_zip.longitude,
+                    hover_name="room_type",
+                    size = 'price',
+                    color = 'room_type',
+                    center = {'lat':df_airbnb_zip['latitude'].tolist()[0],
+                                'lon':df_airbnb_zip['longitude'].tolist()[0]},
+                    zoom=12,
+                    height= 1000,
+                    title = f"Airbnb listings in zipcode {inquiry_zip}"
+                    )
+st.plotly_chart(airbnb_dot,use_container_width= True)
+
 
 
 #df_airbnb_zip['latitude'].tolist()[0]
-st.pydeck_chart(pdk.Deck(
-     map_style='mapbox://styles/mapbox/light-v9',
-     initial_view_state=pdk.ViewState(
-         latitude=float(df_airbnb_zip['latitude'].tolist()[0]),
-         longitude=float(df_airbnb_zip['longitude'].tolist()[0]),
-         zoom=11,
-         pitch=50,
-     ),
-     layers=[
-         pdk.Layer(
-            'HexagonLayer',
-            data=df_airbnb_zip,
-            get_position='[longitude,latitude]',
-            radius=200,
-            elevation_scale=2,
-            elevation_range=[0, 10],
-            pickable=True,
-            extruded=True,
-         ),
-         # pdk.Layer(
-         #     'ScatterplotLayer',
-         #     data=df_airbnb_zip,
-         #     get_position='[longitude,latitude]',
-         #     get_color='[200, 30, 0, 160]',
-         #     get_radius=200,
-         # ),
-     ],
- ))
+# st.pydeck_chart(pdk.Deck(
+#      map_style='mapbox://styles/mapbox/light-v9',
+#      initial_view_state=pdk.ViewState(
+#          latitude=float(df_airbnb_zip['latitude'].tolist()[0]),
+#          longitude=float(df_airbnb_zip['longitude'].tolist()[0]),
+#          zoom=11,
+#          pitch=50,
+#      ),
+#      layers=[
+#          pdk.Layer(
+#             'HexagonLayer',
+#             data=df_airbnb_zip,
+#             get_position='[longitude,latitude]',
+#             radius=200,
+#             elevation_scale=2,
+#             elevation_range=[0, 10],
+#             pickable=True,
+#             extruded=True,
+#          ),
+#          pdk.Layer(
+#              'ScatterplotLayer',
+#              data=df_airbnb_zip,
+#              get_position='[longitude,latitude]',
+#              get_color='[200, 30, 0, 160]',
+#              get_radius=200,
+#          ),
+#      ],
+#  ))
