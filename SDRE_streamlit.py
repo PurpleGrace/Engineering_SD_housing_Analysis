@@ -133,6 +133,7 @@ column1, column2= st.columns(2)
 with column1:
     st.markdown(f"##### {inquiry_zip} Zillow Rental Index: ${df_z_zip['ri__2022_02'].values[0]}")
 
+
 with column2:
     st.markdown(f"##### Average Rented Price In Past Three Month: ${int(rent_avg)}")
 
