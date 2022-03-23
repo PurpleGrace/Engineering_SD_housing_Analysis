@@ -206,7 +206,7 @@ with column2:
     st.plotly_chart(type_price_fig,use_container_width= True)
 
 
-#px.set_mapbox_access_token(st.secrets["mapbox"]["mapbox"])
+px.set_mapbox_access_token(st.secrets["mapbox"]["mapbox"])
 airbnb_dot = px.scatter_mapbox(df_airbnb_zip,
                     lat=df_airbnb_zip.latitude,
                     lon=df_airbnb_zip.longitude,
