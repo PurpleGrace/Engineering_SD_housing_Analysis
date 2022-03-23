@@ -21,5 +21,9 @@ The pipeline is going to fetch data from insideairbnb.com, read data which has b
 - plotly for geographic plots
 - geopy for transfer latitude and longitude to zipcode
 
+### Dashboard
+![image](https://github.com/PurpleGrace/Engineering_SD_housing_Analysis/blob/main/deliverable/Dashboard1.png)
+![image](https://github.com/PurpleGrace/Engineering_SD_housing_Analysis/blob/main/deliverable/Dashboard2.png)
+
 ### Communications
 A PPT presentation will be presented.
