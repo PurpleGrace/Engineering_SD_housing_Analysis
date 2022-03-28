@@ -138,7 +138,7 @@ with column2:
     st.markdown(f"##### Average Rented Price In Past Three Month: ${int(rent_avg)}")
 
 if (len(df_rental_zip[mask]) == 0):
-    st.markdown(f'No Rental Info for {inquriry_room_number} bedrooms and {inquiry_bath_number} bathrooms Property')
+    st.markdown(f'No Rental Info for **{inquriry_room_number}b/{inquiry_bath_number}ba** Property')
 else:
     # rental_his= px.histogram(df_rental_zip[mask].list_price.astype(float),
     #             title = f"      AveragePrice for {inquriry_room_number}b/{inquiry_bath_number}ba Property: ${int(df_rental_zip[mask].list_price.astype(float).mean())}  ")
@@ -163,14 +163,15 @@ sold_avg = df_selling_zip[df_selling_zip.status == 'Sold'].sold_price.astype(flo
 
 column1, column2 = st.columns(2)
 
-column1.markdown(f"###### {inquiry_zip} Zillow House Value Index:")
-column1.markdown(f"##### $ {df_z_zip['vi__2022_02_28'].values[0]}")
-
-column2.markdown(f"###### Average Sold Price In Past Three Month:")
-column2.markdown(f"#####  ${int(sold_avg)}")
+column1.markdown(f"##### {inquiry_zip} Zillow House Value Index:  $ {df_z_zip['vi__2022_02_28'].values[0]}")
 
 
-v_increase_chart = px.bar(df_v_increase,x='Date', y='Increase Expection', title='Zillow Value Increase Forcast :',template="simple_white")
+column2.markdown(f"##### Average Sold Price In Past Three Month:  $ {int(sold_avg)}")
+
+
+
+
+v_increase_chart = px.bar(df_v_increase,x='Date', y='Increase Expection', title='Zillow Value Increase Forcast : %',template="simple_white")
 
 column1, column2 = st.columns(2)
 with column1:
@@ -196,7 +197,7 @@ df_aibnb_most = df_airbnb.groupby(['zipcode'])['id'].count().sort_values(ascendi
 df_aibnb_most = pd.DataFrame({'zipcode':df_aibnb_most.index, 'total':df_aibnb_most.values})
 
 column1, column2 = st.columns(2)
-zip_airbnb_fig = px.bar(df_aibnb_most,x='zipcode',y='total',title='Most Popular ZipCode With Aibnb Listing',template="simple_white")
+zip_airbnb_fig = px.bar(df_aibnb_most,x='zipcode',y='total',title='Most Popular Zip Code With Aibnb Listing',template="simple_white")
 with column1:
     st.plotly_chart(zip_airbnb_fig)
 
